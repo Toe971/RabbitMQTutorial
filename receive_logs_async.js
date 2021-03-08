@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 const amqp = require('amqplib');
-const { Buffer } = require('buffer');
 
 const exchange = 'logs'
 
@@ -19,17 +18,22 @@ const main = async () => {
         durable: false
     })
 
+    // when queue parameter is declared as an empty string, RabbitMQ will automatically generate a name for the queue
+    // exclusive: true means that after the connection that declared it closes, the q will be deleted as it is exclusive
+    const q = await channel.assertQueue('', {
+        exclusive: true
+    })
+
+    console.log(`q = ${q}, q.queue = ${q.queue}`)
+
     console.log(` [*] Waiting for messages in ${queue}. To exit press CTRL+C`)
 
     const msgHandler = msg => {
-        const secs = msg.content.toString().split(' ').length - 1
-        console.log(secs)
-        console.log(`[x] Received ${msg.content.toString()}`)
-        setTimeout(() => {
-            console.log(" [x] Done")
-        }, secs * 1000)
+        const date = new Date()
+        console.log(`[x] Log: ${date} ${msg.content.toString()}`)
     }
-    await channel.consume(queue, msgHandler, {
+
+    await channel.consume(q.queue, msgHandler, {
         noAck: false
     })
 }

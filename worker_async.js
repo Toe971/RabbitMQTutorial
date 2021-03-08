@@ -29,6 +29,8 @@ const main = async () => {
             console.log(" [x] Done")
         }, secs * 1000)
     }
+
+    // sets up a consumer with a callback to be invoked with each message, something like express middleware
     await channel.consume(queue, msgHandler, {
         noAck: false
     })
