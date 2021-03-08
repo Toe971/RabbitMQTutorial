@@ -24,9 +24,17 @@ const main = async () => {
         exclusive: true
     })
 
-    console.log(`q = ${q}, q.queue = ${q.queue}`)
+    console.log(`q = ${console.log(q)}, q.queue = ${q.queue}`)
+    /* shape of q is: {
+    queue: 'amq.gen-RfcznxAyvFkpD0hbZYrI2w',
+    messageCount: 0,
+    consumerCount: 0
+    } */
 
-    console.log(` [*] Waiting for messages in ${queue}. To exit press CTRL+C`)
+    // bind the queue to the exchange, without this step the receiver will not show any messages from emit_log
+    channel.bindQueue(q.queue, exchange, '')
+
+    console.log(` [*] Waiting for messages in ${q.queue}. To exit press CTRL+C`)
 
     const msgHandler = msg => {
         const date = new Date()
