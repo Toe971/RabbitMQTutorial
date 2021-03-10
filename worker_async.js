@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const amqp = require('amqplib');
-const { Buffer } = require('buffer');
+
 
 const queue = 'task_queue'
 

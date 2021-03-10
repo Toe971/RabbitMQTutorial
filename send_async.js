@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 
 
 const amqp = require('amqplib');
@@ -10,7 +8,7 @@ const { Buffer } = require('buffer');
 
 // connect to RabbitMQ server
 const main = async () => {
-    const conn = await amqp.connect('amqp://localhost')
+    const conn = await amqp.connect('amqp://raspi1:raspi1@192.168.1.55:5672')
     const channel = await conn.createChannel()
 
     const queue = 'hello'

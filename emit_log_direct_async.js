@@ -17,10 +17,7 @@ const main = async () => {
     const channel = await conn.createChannel()
     const severity = (args.length > 0) ? args[0] : 'info'
 
-    // declare exchange, publishing to a non-exisiting exchange is forbidden
-    await channel.assertExchange(exchange, 'direct', {
-        durable: false
-    })
+    
 
     
     channel.publish(exchange, severity, Buffer.from(msg))
